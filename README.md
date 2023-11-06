@@ -11,7 +11,7 @@
 ## 프로젝트 수행 일정
 
 ![image](https://github.com/KimGiheung/MamMaMap/assets/94778694/5ea35a51-c00b-4af8-aae5-c8b9d27b0d39)  
-[MamMaMap(3M)수행 일정](MamMaMap(3M)%20681441559a654fb9bb114f4745a85523/MamMaMap(3M)%E1%84%89%E1%85%AE%E1%84%92%E1%85%A2%E1%86%BC%20%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%206950d1fdfdff4859a7a339ac9a8acfe2.csv)  
+[MamMaMap(3M)수행 일정](https://github.com/KimGiheung/MamMaMap/blob/main/MamMaMap(3M)%EC%88%98%ED%96%89%EC%9D%BC%EC%A0%95/MamMaMap(3M)%EC%88%98%ED%96%89%EC%9D%BC%EC%A0%95.csv)  
 
 ## 회의록
 
