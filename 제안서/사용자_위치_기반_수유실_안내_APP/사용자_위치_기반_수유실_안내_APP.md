@@ -2,7 +2,7 @@
 
 UN17목표: 3.건강과 웰빙
 
-![Untitled.png](제안서/사용자_위치_기반_수유실_안내_APP/image/Untitled.png)
+![Untitled.png](MamMaMap/제안서/사용자_위치_기반_수유실_안내_APP/image/Untitled.png)
 
 ### **아이디어 제안서(1)**
 
