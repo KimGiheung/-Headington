@@ -2,7 +2,7 @@
 
 UN17목표: 3.건강과 웰빙
 
-![Untitled.png](https://github.com/KimGiheung/MamMaMap/tree/main/%EC%A0%9C%EC%95%88%EC%84%9C/%EC%82%AC%EC%9A%A9%EC%9E%90_%EC%9C%84%EC%B9%98_%EA%B8%B0%EB%B0%98_%EC%88%98%EC%9C%A0%EC%8B%A4_%EC%95%88%EB%82%B4_APP/image/Untitled.png)
+![Untitled.png](제안서/사용자_위치_기반_수유실_안내_APP/image)
 
 ### **아이디어 제안서(1)**
 
