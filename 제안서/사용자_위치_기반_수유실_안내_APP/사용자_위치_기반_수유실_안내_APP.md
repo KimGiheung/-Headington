@@ -1,9 +1,8 @@
 # 김기흥
 
 UN17목표: 3.건강과 웰빙
-파일: %E1%84%80%E1%85%B5%E1%86%B7%E1%84%80%E1%85%B5%E1%84%92%E1%85%B3%E1%86%BC%20aadc8b4e577c4fdea512cc8cb26741f6/acme-corp-social-banner.png
 
-![Untitled.png](%E1%84%80%E1%85%B5%E1%86%B7%E1%84%80%E1%85%B5%E1%84%92%E1%85%B3%E1%86%BC%20aadc8b4e577c4fdea512cc8cb26741f6/Untitled.png)
+![Untitled.png](https://github.com/KimGiheung/MamMaMap/tree/main/%EC%A0%9C%EC%95%88%EC%84%9C/%EC%82%AC%EC%9A%A9%EC%9E%90_%EC%9C%84%EC%B9%98_%EA%B8%B0%EB%B0%98_%EC%88%98%EC%9C%A0%EC%8B%A4_%EC%95%88%EB%82%B4_APP/image/Untitled.png)
 
 ### **아이디어 제안서(1)**
 
