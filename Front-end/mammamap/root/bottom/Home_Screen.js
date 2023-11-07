@@ -10,13 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -24,10 +18,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Home_Screen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex : 1, backgroundColor : "#fff9db"}}>
-        <Text> Main Screen 입니다.</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("test2")}>
-          <Text>Button to Detailes</Text>
-        </TouchableOpacity>
+      <MapView style={{flex:1}} 
+      provider={PROVIDER_GOOGLE} i
+      initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,}}
+      />
     </SafeAreaView>
   )
 }

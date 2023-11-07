@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 #import <React/RCTBundleURLProvider.h>
 
@@ -6,6 +7,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyCunXsHDrmlG0K9jzxKilAJkjnMV_06f7U"];
   self.moduleName = @"mammamap";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

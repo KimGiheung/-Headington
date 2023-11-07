@@ -33,10 +33,10 @@ const Test_Screen = ( {navigation} ) => {
   return (
     <SafeAreaView style={{flex : 1, backgroundColor : "#fff9db"}}>
         <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen}/>
-            <Tab.Screen name="Second" component={SecondScreen}/>
-            <Tab.Screen name="Third" component={ThirdScreen}/>
-            <Tab.Screen name="Fourth" component={FourthScreen}/>
+            <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+            <Tab.Screen name="Second" component={SecondScreen} options={{ headerShown: false }}/>
+            <Tab.Screen name="Third" component={ThirdScreen} options={{ headerShown: false }}/>
+            <Tab.Screen name="Fourth" component={FourthScreen} options={{ headerShown: false }}/>
         </Tab.Navigator>
     </SafeAreaView>
   )
