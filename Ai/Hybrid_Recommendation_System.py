@@ -11,6 +11,12 @@ from tensorflow.keras.layers import Input, Dense, Embedding, Flatten, concatenat
 # Google Maps 클라이언트 초기화
 gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
 
+
+{
+    latitude: 35.116315938499866,
+    longitude: 128.967294753387,
+}
+
 # 거리 및 시간 계산 함수
 def calculate_distance_duration(origin, destination):
     # API 요청을 통해 거리와 시간을 얻습니다.
