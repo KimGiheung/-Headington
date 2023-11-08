@@ -16,13 +16,18 @@ gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
 origin = 
     {
         latitude: 35.116315938499866,
-        longitude: 128.967294753387,
+        longitude: 128.967294753387
     }
 
 
 # 임의의 목적지 위치(위도, 경도)를 request 받았다고 가정.
-# 사용자 위치는 동아대학교승학캠퍼스 공학대학2호관
+# 목적지 위치는 부신교통공사하단역
 destination =
+    {
+        latitude: 35.10618422,
+        longitude: 128.9662412
+    }
+
 # 거리 및 시간 계산 함수
 def calculate_distance_duration(origin, destination):
     # API 요청을 통해 거리와 시간을 얻습니다.
