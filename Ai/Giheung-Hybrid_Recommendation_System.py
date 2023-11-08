@@ -8,6 +8,9 @@ import tensorflow as tf
 from keras.models import Model
 from keras.layers import Input, Dense, Embedding, Flatten, concatenate
 
+import pandas as pd
+from sklearn.neighbors import NearestNeighbors
+
 # Google Maps 클라이언트 초기화
 gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
 
