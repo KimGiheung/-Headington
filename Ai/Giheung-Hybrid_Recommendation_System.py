@@ -5,8 +5,8 @@ from transformers import pipeline
 import googlemaps
 
 import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Embedding, Flatten, concatenate
+from keras.models import Model
+from keras.layers import Input, Dense, Embedding, Flatten, concatenate
 
 # Google Maps 클라이언트 초기화
 gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
@@ -14,16 +14,16 @@ gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
 # 임의의 사용자 현재 위치(위도, 경도)를 request 받았다고 가정.
 # 사용자 위치는 동아대학교승학캠퍼스 공학대학2호관
 origin = {
-        latitude: 35.116315938499866,
-        longitude: 128.967294753387
+        "latitude": 35.116315938499866,
+        "longitude": 128.967294753387
     }
 
-
+  
 # 임의의 목적지 위치(위도, 경도)를 request 받았다고 가정.
 # 목적지 위치는 부신교통공사하단역
 destination ={
-        latitude: 35.10618422,
-        longitude: 128.9662412
+        "latitude": 35.10618422,
+        "longitude": 128.9662412
     }
 # 리뷰 데이터 리스트
 reviews = [
@@ -72,7 +72,7 @@ def calculate_final_score(distance, duration, rating, sentiment_score):
     score = (rating * rating_weight + sentiment_score * sentiment_weight) / (distance * distance_weight + duration)
     return score
 
-if __name__ == "__main":
+if __name__ == "__main__":
     distance, duration = calculate_distance_duration(origin, destination)
     sentiment_score = analyze_review_sentiments(reviews)
     score = calculate_final_score(distance, duration, rating, sentiment_score)
