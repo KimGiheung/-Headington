@@ -17,4 +17,10 @@
 
 [2023-11-05 회의록 ](https://www.notion.so/2023-11-05-f63af6a8abcf444397d60d332d5437aa?pvs=21)
 
-[2023-11-06 회의록](https://www.notion.so/2023-11-06-ee6513f50f434644b48dd9c5b4733166?pvs=21)
+[2023-11-06 회의록](https://www.notion.so/2023-11-06-ee6513f50f434644b48dd9c5b4733166?pvs=21)  
+
+[2023-11-07 회의록](https://foremost-syringa-f64.notion.site/2023-11-07-e0abb9ce8357464b9ce6d42c21a473a5?pvs=4)  
+
+[2023-11-08 회의록(1)](https://foremost-syringa-f64.notion.site/2023-11-08-1-46cc80c19a1148f8a7dec87949e8adef?pvs=4)  
+
+[2023-11-08 회의록(2)](https://foremost-syringa-f64.notion.site/2023-11-08-2-09bbbbf87f204420a0f01379c8e4237d?pvs=4)  
