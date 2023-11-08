@@ -13,8 +13,7 @@ gmaps = googlemaps.Client(key='AIzaSyDzRETOuOyRHqc9YkvZsO663mFIrty_t50')
 
 # 임의의 사용자 현재 위치(위도, 경도)를 request 받았다고 가정.
 # 사용자 위치는 동아대학교승학캠퍼스 공학대학2호관
-origin = 
-    {
+origin = {
         latitude: 35.116315938499866,
         longitude: 128.967294753387
     }
@@ -22,8 +21,7 @@ origin =
 
 # 임의의 목적지 위치(위도, 경도)를 request 받았다고 가정.
 # 목적지 위치는 부신교통공사하단역
-destination =
-    {
+destination ={
         latitude: 35.10618422,
         longitude: 128.9662412
     }
@@ -63,7 +61,7 @@ def analyze_review_sentiments(reviews):
     scores = [result['score'] if result['label'] == 'POSITIVE' else 1 - result['score'] for result in results]
     return sum(scores) / len(scores)
 
-# 가중치 초기값 설정
+# 가중치 초기값 설정    
 distance_weight = 0.001  # 거리에 대한 가중치
 rating_weight = 1.0  # 평점에 대한 가중치
 sentiment_weight = 2.0  # 감정 분석에 대한 가중치
@@ -78,7 +76,7 @@ if __name__ == "__main":
     distance, duration = calculate_distance_duration(origin, destination)
     sentiment_score = analyze_review_sentiments(reviews)
     score = calculate_final_score(distance, duration, rating, sentiment_score)
-
+    print("score :", score)
 
 
 # # 3. 협업 필터링 모델 추가
