@@ -17,7 +17,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Marker } from 'react-native-maps';
 import { Searchbar } from 'react-native-paper';
 
+const SAMPLE_DATA = {
+  latitude : 35.116315938499866,
+  longitude : 128.967294753387,
+  name : '테스트수유실입니다.'
+};
+
 const Home_Screen = ({ navigation }) => {
+  // useEffect (() => {
+  //   async function fetchMyAPI() {
+  //     await fetch(
+  //       'http://'
+  //     )
+  //   }
+  //   fetchMyAPI()
+  // }, [])
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff9db" }}>
       <Searchbar
@@ -33,10 +47,13 @@ const Home_Screen = ({ navigation }) => {
         }}
       >
         <Marker
-          coordinate={{ latitude: 35.116315938499866, longitude: 128.967294753387 }}
+          coordinate={{ latitude: SAMPLE_DATA.latitude, longitude: SAMPLE_DATA.longitude, name: SAMPLE_DATA.name }}
           title="수유~실"
           description="눌러서 상세보기"
           pinColor={"yellow"}
+          onPress={() => {
+            navigation.navigate('test2', {latitude: SAMPLE_DATA.latitude, longitude: SAMPLE_DATA.longitude})
+          }}
         />
       </MapView>
     </SafeAreaView>
