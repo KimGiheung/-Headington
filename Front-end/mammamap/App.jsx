@@ -12,10 +12,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import HomeScreen from "./root/bottom/Home_Screen"
-import SecondScreen from "./root/bottom/Second_Screen"
-import ThirdScreen from "./root/bottom/Third_Screen"
-import FourthScreen from "./root/bottom/Fourth_Screen"
 import TestScreen from "./root/stack/Test_Screen"
 import Test2Screen from "./root/stack/Test_2_Screen"
 
