@@ -35,16 +35,143 @@ grouped_data = review_data.groupby('facility').agg({'review_text': list, 'rating
     # 인덱스 재설정
 grouped_data.reset_index(inplace=True)
 
-
-
 # 결과 출력
 print(grouped_data.head())
-
-
-
+#============================================================================================
+#=========================================== 감정 점수========================================
+#============================================================================================
 # 4. 각 리뷰에 대해 감성 분석을 시뮬레이션하여 감정 점수를 도출
-sentiment_scores = [random.uniform(0, 1) for _ in range(20)]  # 감정 점수 리스트
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+import warnings
+warnings.filterwarnings('ignore')
+df = pd.read_csv(review_file_path, encoding='utf-8')
+# 정규 표현식 함수 정의
+
+import re
+
+def apply_regular_expression(text):
+    hangul = re.compile('[^ ㄱ-ㅣ 가-힣]')  # 한글 추출 규칙: 띄어 쓰기(1 개)를 포함한 한글
+    result = hangul.sub('', text)  # 위에 설정한 "hangul"규칙을 "text"에 적용(.sub)시킴
+    return result
+#특수문자 제거
+apply_regular_expression(df['text'][0])
+from konlpy.tag import Okt
+from collections import Counter
+okt = Okt()  # 명사 형태소 추출 함수
+nouns = okt.nouns(apply_regular_expression(df['text'][0]))
+nouns
+# 말뭉치 생성
+corpus = "".join(df['text'].tolist())
+corpus
+# 정규 표현식 적용
+apply_regular_expression(corpus)
+# 전체 말뭉치(corpus)에서 명사 형태소 추출
+nouns = okt.nouns(apply_regular_expression(corpus))
+print(nouns)
+counter = Counter(nouns)
+counter.most_common(10)
+#한글자 명사 제거
+available_counter = Counter({x: counter[x] for x in counter if len(x) > 1})
+available_counter.most_common(10)
+#한국어 불용어 사전
+stopwords = pd.read_csv("https://raw.githubusercontent.com/yoonkt200/FastCampusDataset/master/korean_stopwords.txt").values.tolist()
+stopwords[:10]
+#데이터셋에 특화된 불용어 처리 ex)수유실
+nursing_room_stopwords = ['수유실', '부산']
+for word in nursing_room_stopwords:
+    stopwords.append(word)
+#워드 카운트
+from sklearn.feature_extraction.text import CountVectorizer
+
+def text_cleaning(text):
+    hangul = re.compile('[^ ㄱ-ㅣ 가-힣]')  # 정규 표현식 처리
+    result = hangul.sub('', text)
+    okt = Okt()  # 형태소 추출
+    nouns = okt.nouns(result)
+    nouns = [x for x in nouns if len(x) > 1]  # 한글자 키워드 제거
+    nouns = [x for x in nouns if x not in stopwords]  # 불용어 제거
+    return nouns
+
+vect = CountVectorizer(tokenizer = lambda x: text_cleaning(x))
+bow_vect = vect.fit_transform(df['text'].tolist())
+word_list = vect.get_feature_names()
+count_list = bow_vect.toarray().sum(axis=0)
+# 단어 리스트
+word_list
+# 각 단어가 전체 리뷰중에 등장한 총 횟수
+count_list
+# 각 단어의 리뷰별 등장 횟수
+bow_vect.toarray()
+# "단어" - "총 등장 횟수" Matching
+
+word_count_dict = dict(zip(word_list, count_list))
+word_count_dict
+def rating_to_label(rating):
+    if rating > 3:
+        return 1
+    else:
+        return 0
+
+df['y'] = df['rating'].apply(lambda x: rating_to_label(x))
+
+#분류 모델 베이스라인
+
+# 필요한 라이브러리 import
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# 데이터 준비
+X = df['text']  # 텍스트 데이터
+y = df['y']  # 레이블 (긍정: 1, 부정: 0)
+
+# 훈련 데이터와 테스트 데이터로 분리
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 텍스트 데이터 전처리 함수 (앞서 구현한 것과 비슷하게)
+def text_preprocessing(text):
+    # 원하는 전처리 작업을 수행
+    text = apply_regular_expression(text)
+    text = text_cleaning(text)
+    return text
+
+X_train = X_train.apply(text_preprocessing)
+X_test = X_test.apply(text_preprocessing)
+
+# 텍스트 데이터를 벡터로 변환 (위에서 사용한 CountVectorizer 사용)
+vect = CountVectorizer(tokenizer=lambda x: x)
+X_train_bow = vect.fit_transform(X_train)
+X_test_bow = vect.transform(X_test)
+
+# 분류 모델 학습
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train_bow, y_train)
+
+# 예측
+y_pred = model.predict(X_test_bow)
+
+# 정확도 평가
+accuracy = accuracy_score(y_test, y_pred)
+print(f"모델 정확도: {accuracy}")
+
+# 예측 함수 (텍스트를 입력으로 받아 긍정 또는 부정 예측)
+def predict_sentiment(text):
+    preprocessed_text = text_preprocessing(text)
+    text_vector = vect.transform([preprocessed_text])
+    prediction = model.predict(text_vector)[0]
+    if prediction == 1:
+        return "긍정적인 리뷰"
+    else:
+        return "부정적인 리뷰"
+
+# 예측 테스트
+sample_text = "이 수유실은 정말 편리하고 깨끗해요!"
+result = predict_sentiment(sample_text)
+print(f"텍스트 감정: {result}")
+
+#============================================================================================
 
 # 5. 감정점수, 평균 평점, 거리를 고려하여 수유실을 추천합니다.
 # 각 수유실에 대한 종합 점수를 계산합니다.
