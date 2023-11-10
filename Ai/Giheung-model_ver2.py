@@ -30,13 +30,14 @@ except UnicodeDecodeError:
     review_data = pd.read_csv(review_file_path, encoding='utf-16')
 
     # 수유실별로 리뷰 텍스트를 리스트로 묶고 평균 평점 계산
-grouped_data = review_data.groupby('facility').agg({'review_text': list, 'rating': 'mean'})
+reviews_ratings = review_data.groupby('facility').agg({'review_text': list, 'rating': 'mean'})
 
     # 인덱스 재설정
-grouped_data.reset_index(inplace=True)
+reviews_ratings.reset_index(inplace=True)
 
 # 결과 출력
-print(grouped_data.head())
+print("reviews_ratings")
+print(reviews_ratings.head())
 #============================================================================================
 #=========================================== 감정 점수========================================
 #============================================================================================
@@ -161,22 +162,26 @@ def predict_sentiment(text):
     preprocessed_text = text_preprocessing(text)
     text_vector = vect.transform([preprocessed_text])
     prediction = model.predict(text_vector)[0]
-    if prediction == 1:
-        return "긍정적인 리뷰"
-    else:
-        return "부정적인 리뷰"
+    return prediction
 
 # 예측 테스트
 sample_text = "이 수유실은 정말 편리하고 깨끗해요!"
 result = predict_sentiment(sample_text)
 print(f"텍스트 감정: {result}")
+
+df['predicted_sentiment'] = df['review_text'].apply(predict_sentiment)
+# 수유실별로 예측된 감정 점수의 평균을 계산합니다.
+sentiment_scores = df.groupby('facility')['predicted_sentiment'].mean().reset_index()
+
+# 결과 출력
+print(sentiment_scores.head())
 #============================================================================================
 
 # 5. 감정점수, 평균 평점, 거리를 고려하여 수유실을 추천합니다.
 # 각 수유실에 대한 종합 점수를 계산합니다.
 combined_scores = []
 for i in range(20):
-    score = sentiment_scores[i] * 0.5 + reviews_ratings[i][1] * 0.3 - distances[0][i] * 0.2
+    score = sentiment_scores[i][1] * 0.5 + reviews_ratings[i][1] * 0.3 - distances[0][i] * 0.2
     combined_scores.append((score, i))
 
 # 종합 점수가 가장 높은 5개의 수유실을 추천합니다.
