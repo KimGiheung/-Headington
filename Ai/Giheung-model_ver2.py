@@ -8,7 +8,7 @@ user_location = np.array([[35.116315938499866, 128.967294753387]])  # 가상의 
 # 2. kNN 알고리즘을 사용하여 수유실을 추려냅니다. 
 
 # CSV 파일 읽기 (한국어 인코딩 처리)
-file_path = 'C:\\Users\\ewqds\\Documents\\GitHub\\MamMaMap\\Data\\myfile.csv'
+file_path = 'C:\\Users\\win\\Documents\\GitHub\\MamMaMap\\Data\\myfile.csv'
 data = pd.read_csv(file_path, encoding='cp949')
 
 # 수유실의 경도와 위도 데이터 추출
@@ -23,7 +23,7 @@ distances, indices = knn.kneighbors(user_location)
 
 print(distances, indices)
 # 3. 수유실의 [리뷰, 평균 평점] 데이터를 불러옴
-review_file_path = 'C:\\Users\\ewqds\\Documents\\GitHub\\MamMaMap\\Data\\biased_nursing_room_reviews_with_facility_order(리뷰,평점데이터).csv'
+review_file_path = 'C:\\Users\\win\\Documents\\GitHub\\MamMaMap\\Data\\biased_nursing_room_reviews_with_facility_order(리뷰,평점데이터).csv'
 try:
     review_data = pd.read_csv(review_file_path, encoding='utf-8')
 except UnicodeDecodeError:
@@ -34,10 +34,10 @@ reviews_ratings = review_data.groupby('facility').agg({'review_text': list, 'rat
 
     # 인덱스 재설정
 reviews_ratings.reset_index(inplace=True)
-
+reviews_ratings = reviews_ratings['rating'].tolist()
 # 결과 출력
 print("reviews_ratings")
-print(reviews_ratings.head())
+print(reviews_ratings, sep = '\n')
 #============================================================================================
 #=========================================== 감정 점수========================================
 #============================================================================================
@@ -172,23 +172,28 @@ print(f"텍스트 감정: {result}")
 df['predicted_sentiment'] = df['review_text'].apply(predict_sentiment)
 # 수유실별로 예측된 감정 점수의 평균을 계산합니다.
 sentiment_scores = df.groupby('facility')['predicted_sentiment'].mean().reset_index()
-
+sentiment_scores = sentiment_scores['predicted_sentiment'].tolist()
 # 결과 출력
-print(sentiment_scores.head())
+print("sentiment_scores")
+print(sentiment_scores, sep = '\n')
 #============================================================================================
 
 # 5. 감정점수, 평균 평점, 거리를 고려하여 수유실을 추천합니다.
 # 각 수유실에 대한 종합 점수를 계산합니다.
 combined_scores = []
 for i in range(20):
-    score = sentiment_scores[i][1] * 0.5 + reviews_ratings[i][1] * 0.3 - distances[0][i] * 0.2
+    score = sentiment_scores[i] * 0.5 + reviews_ratings[i] * 0.3 - distances[0][i] * 0.2
     combined_scores.append((score, i))
 
 # 종합 점수가 가장 높은 5개의 수유실을 추천합니다.
 recommended_indices = sorted(combined_scores, reverse=True)[:5]
 
 # 추천된 수유실의 위치를 가져옵니다.
-recommended_rooms = [(nursing_rooms[idx][0], nursing_rooms[idx][1]) for _, idx in recommended_indices]
+recommended_rooms = [(nursing_rooms.iloc[idx][0], nursing_rooms.iloc[idx][1]) for _, idx in recommended_indices]
+
+print("사용자 추천 리스트")
+print(recommended_rooms)
+
 
 # 6. 백엔드로 사용자 ID와 추천된 수유실 위치를 전송합니다.
 # 실제로는 API 호출을 통해 전송하지만, 여기서는 출력으로 대체합니다.
