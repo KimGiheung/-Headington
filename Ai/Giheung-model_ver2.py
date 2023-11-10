@@ -8,7 +8,7 @@ user_location = np.array([[35.116315938499866, 128.967294753387]])  # 가상의 
 # 2. kNN 알고리즘을 사용하여 수유실을 추려냅니다. 
 
 # CSV 파일 읽기 (한국어 인코딩 처리)
-file_path = 'C:\\Users\\win\\Documents\\GitHub\\MamMaMap\\Data\\myfile.csv'
+file_path = 'C:\\Users\\ewqds\\Documents\\GitHub\\MamMaMap\\Data\\myfile.csv'
 data = pd.read_csv(file_path, encoding='cp949')
 
 # 수유실의 경도와 위도 데이터 추출
@@ -23,7 +23,7 @@ distances, indices = knn.kneighbors(user_location)
 
 print(distances, indices)
 # 3. 수유실의 [리뷰, 평균 평점] 데이터를 불러옴
-review_file_path = 'C:\\Users\\win\\Documents\\GitHub\\MamMaMap\\Data\\biased_nursing_room_reviews_with_facility_order(리뷰,평점데이터).csv'
+review_file_path = 'C:\\Users\\ewqds\\Documents\\GitHub\\MamMaMap\\Data\\biased_nursing_room_reviews_with_facility_order(리뷰,평점데이터).csv'
 try:
     review_data = pd.read_csv(review_file_path, encoding='utf-8')
 except UnicodeDecodeError:
@@ -56,14 +56,14 @@ def apply_regular_expression(text):
     result = hangul.sub('', text)  # 위에 설정한 "hangul"규칙을 "text"에 적용(.sub)시킴
     return result
 #특수문자 제거
-apply_regular_expression(df['text'][0])
+apply_regular_expression(df['review_text'][0])
 from konlpy.tag import Okt
 from collections import Counter
 okt = Okt()  # 명사 형태소 추출 함수
-nouns = okt.nouns(apply_regular_expression(df['text'][0]))
+nouns = okt.nouns(apply_regular_expression(df['review_text'][0]))
 nouns
 # 말뭉치 생성
-corpus = "".join(df['text'].tolist())
+corpus = "".join(df['review_text'].tolist())
 corpus
 # 정규 표현식 적용
 apply_regular_expression(corpus)
@@ -93,10 +93,10 @@ def text_cleaning(text):
     nouns = [x for x in nouns if len(x) > 1]  # 한글자 키워드 제거
     nouns = [x for x in nouns if x not in stopwords]  # 불용어 제거
     return nouns
-
+    
 vect = CountVectorizer(tokenizer = lambda x: text_cleaning(x))
-bow_vect = vect.fit_transform(df['text'].tolist())
-word_list = vect.get_feature_names()
+bow_vect = vect.fit_transform(df['review_text'].tolist())
+word_list = vect.get_feature_names_out()
 count_list = bow_vect.toarray().sum(axis=0)
 # 단어 리스트
 word_list
@@ -124,7 +124,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 # 데이터 준비
-X = df['text']  # 텍스트 데이터
+X = df['review_text']  # 텍스트 데이터
 y = df['y']  # 레이블 (긍정: 1, 부정: 0)
 
 # 훈련 데이터와 테스트 데이터로 분리
@@ -134,8 +134,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 def text_preprocessing(text):
     # 원하는 전처리 작업을 수행
     text = apply_regular_expression(text)
-    text = text_cleaning(text)
-    return text
+    nouns = text_cleaning(text)
+    return ' '.join(nouns)  # 명사들을 공백으로 구분하여 하나의 문자열로 만듦
 
 X_train = X_train.apply(text_preprocessing)
 X_test = X_test.apply(text_preprocessing)
@@ -170,7 +170,6 @@ def predict_sentiment(text):
 sample_text = "이 수유실은 정말 편리하고 깨끗해요!"
 result = predict_sentiment(sample_text)
 print(f"텍스트 감정: {result}")
-
 #============================================================================================
 
 # 5. 감정점수, 평균 평점, 거리를 고려하여 수유실을 추천합니다.
