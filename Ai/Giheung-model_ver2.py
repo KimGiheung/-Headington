@@ -30,13 +30,14 @@ except UnicodeDecodeError:
     review_data = pd.read_csv(review_file_path, encoding='utf-16')
 
     # 수유실별로 리뷰 텍스트를 리스트로 묶고 평균 평점 계산
-grouped_data = review_data.groupby('facility').agg({'review_text': list, 'rating': 'mean'})
+reviews_ratings = review_data.groupby('facility').agg({'review_text': list, 'rating': 'mean'})
 
     # 인덱스 재설정
-grouped_data.reset_index(inplace=True)
-
+reviews_ratings.reset_index(inplace=True)
+reviews_ratings = reviews_ratings['rating'].tolist()
 # 결과 출력
-print(grouped_data.head())
+print("reviews_ratings")
+print(reviews_ratings, sep = '\n')
 #============================================================================================
 #=========================================== 감정 점수========================================
 #============================================================================================
@@ -56,14 +57,14 @@ def apply_regular_expression(text):
     result = hangul.sub('', text)  # 위에 설정한 "hangul"규칙을 "text"에 적용(.sub)시킴
     return result
 #특수문자 제거
-apply_regular_expression(df['text'][0])
+apply_regular_expression(df['review_text'][0])
 from konlpy.tag import Okt
 from collections import Counter
 okt = Okt()  # 명사 형태소 추출 함수
-nouns = okt.nouns(apply_regular_expression(df['text'][0]))
+nouns = okt.nouns(apply_regular_expression(df['review_text'][0]))
 nouns
 # 말뭉치 생성
-corpus = "".join(df['text'].tolist())
+corpus = "".join(df['review_text'].tolist())
 corpus
 # 정규 표현식 적용
 apply_regular_expression(corpus)
@@ -93,10 +94,10 @@ def text_cleaning(text):
     nouns = [x for x in nouns if len(x) > 1]  # 한글자 키워드 제거
     nouns = [x for x in nouns if x not in stopwords]  # 불용어 제거
     return nouns
-
+    
 vect = CountVectorizer(tokenizer = lambda x: text_cleaning(x))
-bow_vect = vect.fit_transform(df['text'].tolist())
-word_list = vect.get_feature_names()
+bow_vect = vect.fit_transform(df['review_text'].tolist())
+word_list = vect.get_feature_names_out()
 count_list = bow_vect.toarray().sum(axis=0)
 # 단어 리스트
 word_list
@@ -124,7 +125,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 # 데이터 준비
-X = df['text']  # 텍스트 데이터
+X = df['review_text']  # 텍스트 데이터
 y = df['y']  # 레이블 (긍정: 1, 부정: 0)
 
 # 훈련 데이터와 테스트 데이터로 분리
@@ -134,8 +135,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 def text_preprocessing(text):
     # 원하는 전처리 작업을 수행
     text = apply_regular_expression(text)
-    text = text_cleaning(text)
-    return text
+    nouns = text_cleaning(text)
+    return ' '.join(nouns)  # 명사들을 공백으로 구분하여 하나의 문자열로 만듦
 
 X_train = X_train.apply(text_preprocessing)
 X_test = X_test.apply(text_preprocessing)
@@ -161,30 +162,38 @@ def predict_sentiment(text):
     preprocessed_text = text_preprocessing(text)
     text_vector = vect.transform([preprocessed_text])
     prediction = model.predict(text_vector)[0]
-    if prediction == 1:
-        return "긍정적인 리뷰"
-    else:
-        return "부정적인 리뷰"
+    return prediction
 
 # 예측 테스트
 sample_text = "이 수유실은 정말 편리하고 깨끗해요!"
 result = predict_sentiment(sample_text)
 print(f"텍스트 감정: {result}")
 
+df['predicted_sentiment'] = df['review_text'].apply(predict_sentiment)
+# 수유실별로 예측된 감정 점수의 평균을 계산합니다.
+sentiment_scores = df.groupby('facility')['predicted_sentiment'].mean().reset_index()
+sentiment_scores = sentiment_scores['predicted_sentiment'].tolist()
+# 결과 출력
+print("sentiment_scores")
+print(sentiment_scores, sep = '\n')
 #============================================================================================
 
 # 5. 감정점수, 평균 평점, 거리를 고려하여 수유실을 추천합니다.
 # 각 수유실에 대한 종합 점수를 계산합니다.
 combined_scores = []
 for i in range(20):
-    score = sentiment_scores[i] * 0.5 + reviews_ratings[i][1] * 0.3 - distances[0][i] * 0.2
+    score = sentiment_scores[i] * 0.5 + reviews_ratings[i] * 0.3 - distances[0][i] * 0.2
     combined_scores.append((score, i))
 
 # 종합 점수가 가장 높은 5개의 수유실을 추천합니다.
 recommended_indices = sorted(combined_scores, reverse=True)[:5]
 
 # 추천된 수유실의 위치를 가져옵니다.
-recommended_rooms = [(nursing_rooms[idx][0], nursing_rooms[idx][1]) for _, idx in recommended_indices]
+recommended_rooms = [(nursing_rooms.iloc[idx][0], nursing_rooms.iloc[idx][1]) for _, idx in recommended_indices]
+
+print("사용자 추천 리스트")
+print(recommended_rooms)
+
 
 # 6. 백엔드로 사용자 ID와 추천된 수유실 위치를 전송합니다.
 # 실제로는 API 호출을 통해 전송하지만, 여기서는 출력으로 대체합니다.
