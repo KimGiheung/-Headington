@@ -12,7 +12,7 @@
 
 # 김기흥[사용자 위치 기반 수유실 안내 APP]
 
-![Untitled.png](https://github.com/KimGiheung/MamMaMap/assets/94778694/6046bc9e-b9bd-43eb-a2ee-ce7474631b1b)
+![Untitled.png](https://github.com/KimGiheung/MamMaMap/assets/94778694/74bbd150-2c46-4e35-8ce5-9f2c8a36bc02)
 
 ### **아이디어 제안서**
 
