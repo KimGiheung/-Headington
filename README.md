@@ -3,10 +3,9 @@
 ## notion Link
 
 [notion Link](https://foremost-syringa-f64.notion.site/MamMaMap-3M-681441559a654fb9bb114f4745a85523?pvs=4)
-## notion Link
-- 팀원 구성
-  - 팀장: 김기흥
-  - 팀원: 이유빈, 배지혜, 정주영, 남윤서
+## 팀원 구성
+- 팀장: 김기흥
+- 팀원: 이유빈, 배지혜, 정주영, 남윤서
 
 ## 아이디어 제안서
 [아이디어 제안서](https://www.notion.so/dd4203f785ef4ef68aa25a685b93fa49?pvs=21)
