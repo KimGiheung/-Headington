@@ -97,7 +97,11 @@ def text_cleaning(text):
     
 vect = CountVectorizer(tokenizer = lambda x: text_cleaning(x))
 bow_vect = vect.fit_transform(df['review_text'].tolist())
+<<<<<<< Updated upstream
 word_list = vect.get_feature_names_out()
+=======
+word_list = vect.get_feature_names()
+>>>>>>> Stashed changes
 count_list = bow_vect.toarray().sum(axis=0)
 # 단어 리스트
 word_list
