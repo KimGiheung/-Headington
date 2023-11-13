@@ -11,7 +11,7 @@
 [아이디어 제안서](https://www.notion.so/dd4203f785ef4ef68aa25a685b93fa49?pvs=21)
 
 # 김기흥[사용자 위치 기반 수유실 안내 APP]
-
+## UN17목표 : 10.불평등 감소
 ![Untitled.png](https://github.com/KimGiheung/MamMaMap/assets/94778694/74bbd150-2c46-4e35-8ce5-9f2c8a36bc02)
 
 ### **아이디어 제안서**
