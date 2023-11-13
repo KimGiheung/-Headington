@@ -2,7 +2,7 @@
 
 ## notion Link
 
-[https://foremost-syringa-f64.notion.site/MamMaMap-3M-681441559a654fb9bb114f4745a85523?pvs=4](https://www.notion.so/MamMaMap-3M-681441559a654fb9bb114f4745a85523?pvs=21)
+[notion Link](https://foremost-syringa-f64.notion.site/APP-aadc8b4e577c4fdea512cc8cb26741f6?pvs=4)
 
 ## 아이디어 제안서
 [아이디어 제안서](https://www.notion.so/dd4203f785ef4ef68aa25a685b93fa49?pvs=21)
