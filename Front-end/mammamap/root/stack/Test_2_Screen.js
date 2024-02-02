@@ -17,11 +17,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const SAMPLE_DEATAIL_DATA = {
   id: 1,
   sido: '부산',
-  sigungu: '해운대구',
-  agencyname: '홈플러스해운대점',
-  address: '부산 해운대구 해운대해변로 140',
-  location: '1층',
-  phoneNumber: '051-714-8701',
+  sigungu: '사하구',
+  agencyname: '부산교통공사하단역',
+  address: '부산 사하구 낙동남로 지하 1415 (하단동, 하단역)',
+  location: '고객센터 내',
+  phoneNumber: '051-678-6102',
   target: '외부인',
   fatherUsage: '가능'
 }
@@ -97,11 +97,28 @@ const Test_2_Screen = ({ latitude, longtitude, name }) => {
           <Text style={{fontSize: 60}}>/ 5</Text>
         </View>
       </View>
+      <TouchableOpacity style={styles.formButton}>
+        <Text style={styles.formText}>제출하기</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  formButton: {
+    borderWidth : 1,
+    borderColor : 'black',
+    backgroundColor : '#ced4da',
+    marginHorizontal : 130,
+    marginTop : 20,
+    paddingVertical : 10,
+    alignItems : 'center',
+    justifyContent : 'center',
+    borderRadius : 10
+  },
+  formText: {
+    fontSize: 30
+  },
   contentView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
